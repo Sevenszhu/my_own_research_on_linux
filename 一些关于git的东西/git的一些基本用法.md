@@ -10,9 +10,10 @@
 3. **拉取**：别人在仓库修改了代码，你通过拉取仓库的新代码，覆盖本地的代码
 4. **ssh(secure shell)**：ssh是一种网络协议，为的是让本地和和服务器建立加密隧道，可以安全地传输数据
    
+
 **给个基本原理图：**
 ![](git原理.png)
-   
+
 ***详细讲解ssh在github配置的原理***
 ssh验证流程
 1. 生成一对密钥（公钥和私钥）
@@ -30,14 +31,19 @@ ssh验证流程
    此时，我们贴上链接：https://git-scm.com/
    理论上选择这个:
    ![](git客户端版本的选择.png)
+
 2. 点击安装即可
    ![](git安装界面.png)
+
 3. 安装完成界面，点击finish即可
    ![](安装完成界面.png)
+
 4. 随便打开一个盘，我个人不太喜欢分盘，因为分盘没有意义。当然按照普罗大众的标准，我分出了D盘，在图形界面下，右击鼠标，选择**显示更多选项**
    ![](打开git.png)
+
 5. 点击**Open Git Bash here**. bash，你就理解成命令吧
    ![](选项.png)
+
 6. 进入这个界面，ctrl+可以放大字体，ctrl-可以缩小字体，自己舒服就行
    ![](git_bash界面.png)
    这个界面表明你在d盘下，头一次使用，开始配置一些参数（后面的代码直接输入就行，一行一行打，井号后面请忽略，那是注释）
@@ -57,10 +63,12 @@ ssh验证流程
     3. 复制一下那个public key保存的地址
     ```bash
     cat 保存的地址 # 这里把地址复制一下就好，记住在这个bash里面复制粘贴不是ctrl c ctrl v，直接右键复制粘贴就好
+    # 记得地址含id_rsa.pub. (这是公钥的意思，public)
     # 此时，你的终端会出现这么一堆乱七八糟的码
     # ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDAR+fdAAGdaRG8J1M+JpkjSOnMMyVee7Lq5BaABZpdCRaKgYWLlSLkEYjXZelXkdT2yZImb41fjqCvzZkzhzK0GnldY8xD5umCmkjOY2eF0kjR0y7ZLU/bLtt5tA6niVz49MKSBTgsjYVBcyv16oNcUa9sOKPjgv7EDIznWjvAOWJaH4eDbpoFAMz8wHWnOpOchJDI3WLZ7OFKW5/Wj5d0TVVt9KnU0ZCwZGRfPmVEQC1chKw8ePicNJtJrtyw0VlNgRoZev67aTvZICQx7uLOmNa78tNEfZSeyupByDbr6jEpIFLxZHmvbPM4TDZi/UnDf+Z1jQjYplkzjiyU2lr/ xxxxxxx@qq.com
     # 不用管他，把这些码复制好
     ```
+
 7. 现在开始github的配置，打开github网页，贴在这里 github.com
    1. 进入登陆好的主页，点击自己的头像，点击**settings**
    ![](GitHub界面.png)
@@ -70,6 +78,7 @@ ssh验证流程
    ![](点击New.png)
    4. title胡恰一个，这个东西代表这是你的哪一台电脑，你自己知道就行，下面的Key把复制的东西粘贴上去，点击**Add SSH Key**
    ![](密钥.png)
+
 8. 
     ```bash
     ssh -T git@github.com
@@ -77,14 +86,42 @@ ssh验证流程
     # 如果出现以下提示，说明连接成功
     # Hi HaleyHan! You've successfully authenticated, but GitHub does not provide shell access.
     ```
+
 9. 后面开始初始化操作
     ```bash
     git config --global user.name 你的名字 # 设置用户签名
     git config --global user.email 你的邮箱地址 # 设置邮箱地址
     # 这俩玩意只要首次配置就好了
     ```
+
 10. 这时候就基本配置完成了
+
+### 仓库的创建
+
+现在教学一下仓库的创建
+
+现在回到主界面
+
+![](git的主页面.png)
+
+点击自己的头像
+
+<img src="点击自己的头像.png" style="zoom:38%;" />
+
+选择**Repositories**
+
+![](Repositories界面.png)
+
+点击**New**
+
+<img src="New按钮.png" style="zoom:38%;" />
+
+![](仓库界面.png)
+
+**记得打开add README** （README就是读我的意思，是介绍性文件，用md语言写）
+
 ### 克隆仓库到本地
+
 所谓的克隆仓库，代表你本地没有这个仓库内代码的任何版本，所以只有你第一次获取一个仓库才需要克隆。
 在GitHub中查看,如图，点击**Code**， **SSH**，复制那个链接，每个人的链接都是独一无二的
 ![](clone.png)
