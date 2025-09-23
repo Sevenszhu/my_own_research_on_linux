@@ -27,6 +27,8 @@
     set ruler                                 " 打开状态栏标尺
     set laststatus=2                          " 显示状态栏 (默认值为 1, 无法显示状态栏)
     colorscheme elflord                       " 设置背景主题
+    set iminsert=0
+    set imsearch=0
 
 ```
 
