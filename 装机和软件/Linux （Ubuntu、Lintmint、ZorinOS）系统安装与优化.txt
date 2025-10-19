@@ -2,13 +2,13 @@ Linux （Ubuntu、Lintmint、ZorinOS）系统安装与优化
                （一）
 
 一、安装媒体解码器、微软额外字体
-sudo apt install ubuntu-restricted-extras
+sudo apt install ubuntu-restricted-extras -y
 
 二、安装Linux基本库
 1、sudo apt install build-essential -y
 2、安装基本库
 sudo apt install gdb -y
-sudo apt install nala
+sudo apt install nala -y
 sudo apt-get install gnome-devel -y
 sudo apt install gdebi -y
 3、安装Python基本依赖库
@@ -16,7 +16,7 @@ sudo apt-get install gnome-core
 sudo apt install libtiff-dev:i386 libtiff-dev
 sudo apt-get install autoconf
 4、安装cmake、qt
-sudo apt-get install cmake qtcreator
+sudo apt-get install cmake qtcreator -y
 5、安装系统辅助工具软件
 sudo apt-get install vpnc git curl wget gpg
 sudo apt-get install p7zip-full p7zip-rar
