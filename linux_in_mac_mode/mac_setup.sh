@@ -4,7 +4,7 @@
 echo "正在安装基础工具和主题依赖..."
 sudo add-apt-repository ppa:agornostal/ulauncher
 sudo apt update
-sudo apt install -y git libglib2.0-dev-bin libxml2-utils ant ulauncher lsd bat plank
+sudo apt install -y git libglib2.0-dev-bin libxml2-utils ant ulauncher lsd bat plank nnn
 
 # --- 2. 配置终端别名 (lsd, batcat, catbat) ---
 echo "正在配置 .bashrc 别名..."

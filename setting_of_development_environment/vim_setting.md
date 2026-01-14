@@ -79,7 +79,7 @@ set laststatus=2
 " to Chinese very well, so sadly, we can only use it in the command line in
 " vim :set spell, the opposite command is :set nospell
 " set spell
-
+-
 " Enable spell checking, language is American English
 set spelllang=en_us
 
@@ -139,7 +139,17 @@ Plugin '907th/vim-auto-save'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 
-" Required to finish Vundle setup
+" A Vim Plugin for Lively Previewing LaTeX PDF Output
+" Plugin 'xuhdev/vim-latex-live-preview'
+
+" vim tex preview
+" Plugin 'conornewton/vim-latex-preview'
+" Plugin 'skywind3000/asyncrun.vim'
+
+Plugin 'sirver/ultisnips'
+Plugin 'honza/vim-snippets'
+
+    " Required to finish Vundle setup
 call vundle#end()
 " Required to enable filetype-specific plugins and indentation
 filetype plugin indent on
@@ -190,12 +200,11 @@ let g:mkdp_mermaid_path = 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min
 
 " Auto-completion for brackets and symbols
 inoremap ( ()<Left>
-inoremap { {}<Left>
-inoremap [ []<Left>
 " inoremap $ $$<Left>
 " inoremap * **<Left>
-inoremap < <><Left>
+" inoremap < <><Left>
 inoremap \| \|\|<Left>
+inoremap { {}<Left>
 
 " Enable $ and * auto-completion only in Markdown files
 autocmd FileType markdown inoremap <buffer> $ $$<Left>
@@ -238,7 +247,34 @@ let g:airline_powerline_fonts = 1
 " 确保使用UTF-8编码
 set encoding=utf-8
 
-let g:airline_theme='tomorrow'
+" change engine of compilationg of previewer
+"let g:livepreview_engine = 'xelatex'
+
+" 当打开或新建 .tex 文件时，自动执行 LLPStartPreview
+" autocmd FileType tex LLPStartPreview
+
+" 强制 Vim 在处理该插件相关的脚本时优先使用 python3
+" let g:livepreview_cursorhold_recompile = 1
+
+" 设置预览 PDF 的工具
+" let g:latex_pdf_viewer = 'evince'
+
+" 设置编译引擎为 xelatex (处理中文必须)
+" let g:latex_engine = 'xelatex'
+
+let g:tex_flavor = 'latex'
+let g:vimtex_compiler_latexmk_engines={'_':'-xelatex'}
+let g:vimtex_compiler_latexrun_engines={'_':'xelatex'}
+let g:vimtex_view_method='zathura'
+let g:vimtex_quickfix_mode = 1
+set conceallevel=1
+let g:tex_conceal='abdmg'
+
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+let g:UltiSnipsEditSplit="vertical"
+
 ```
 
 3. Last you should use the vimscript below:
