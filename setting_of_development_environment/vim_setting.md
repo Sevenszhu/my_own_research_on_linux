@@ -8,87 +8,92 @@ git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 ```
 " =============================================================================
-" 1. VIM CORE SETTINGS (基础设置)
+" 1. VIM CORE SETTINGS
 " =============================================================================
-set nocompatible              " Required for modern Vim features
+set nocompatible              " Enable modern Vim features
 syntax on                     " Enable syntax highlighting
-filetype plugin indent on     " Enable filetype-specific plugins and indentation
+filetype plugin indent on     " Enable filetype-specific plugins
 
 " --- UI & Visuals ---
 set number                    " Show line numbers
 set cursorline                " Highlight the current line
 set cursorcolumn              " Highlight the current column
-set ruler                     " Enable status bar ruler
+set ruler                     " Show cursor position in status bar
 set laststatus=2              " Always show status bar
 set cmdheight=1               " Command line height
-set showmatch                 " Briefly jump to matching bracket
-set matchtime=2               " Duration to jump to matching bracket
-set display+=lastline         " Show as much as possible of the last line
-set listchars=tab:»·,trail:·  " Visual whitespace
+set showmatch                 " Jump to matching bracket
+set matchtime=2               " Duration (tenths of a sec) to blink matching bracket
+set display+=lastline         " Display as much as possible of the last line
+set listchars=tab:»·,trail:·  " Visual markers for tabs and trailing spaces
+set wrap                      " Enable line wrapping
 
 " --- Search Settings ---
-set ignorecase smartcase      " Case-insensitive unless uppercase is used
-set incsearch                 " Show search results as you type
-set hlsearch                  " Highlight search matches
-set nowrapscan                " Stop searching at the end of file
+set ignorecase smartcase      " Case-insensitive search unless uppercase is used
+set incsearch                 " Show search results while typing
+set hlsearch                  " Highlight all search matches
+set nowrapscan                " Do not wrap around the end of file during search
 
-" --- Indentation & Tabs ---
-set smartindent               " Enable smart auto-indentation
-set shiftwidth=8              " Indent 4 spaces
-set tabstop=8                 " Tab width 8 spaces
-set softtabstop=8             " Backspace deletes 4 spaces
+" --- Indentation & Tabs (8-Space Standard) ---
+set tabstop=8                 " Number of spaces a Tab counts for
+set softtabstop=8             " Number of spaces a Backspace deletes
 set expandtab                 " Convert tabs to spaces
 
 " --- File Handling & Encoding ---
-set nobackup                  " No backup files
-set backupcopy=yes            " Overwrite original file on save
-set hidden                    " Switch buffers without saving
+set nobackup                  " Disable backup files
+set noswapfile                " Disable swap files
+set backupcopy=yes            " Overwrite file when saving
+set hidden                    " Allow buffer switching without saving
 set encoding=utf-8
 set termencoding=utf-8
 set fileencodings=utf-8,ucs-bom,gbk,gb18030,latin1
 
-" --- Spell Checking (Global) ---
-set spelllang=en_us           " Set spell check to US English
+" --- Spell Checking ---
+set spelllang=en_us           " Default spell check language
 
 
 " =============================================================================
-" 2. PLUGIN MANAGEMENT (Vundle)
+" 2. PLUGIN MANAGEMENT (vim-plug)
 " =============================================================================
-filetype off
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Auto-install vim-plug if not present
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
 
-Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
-" UI & Themes
-Plugin 'nanotech/jellybeans.vim'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
+" --- Core Manager ---
+Plug 'junegunn/vim-plug'
 
-" File Navigation
-Plugin 'preservim/nerdtree'
+" --- UI & Themes ---
+Plug 'nanotech/jellybeans.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-" Editing Tools
-Plugin '907th/vim-auto-save'
-Plugin 'sirver/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'dense-analysis/ale'
+" --- File Navigation ---
+Plug 'preservim/nerdtree'
 
-" Markdown & LaTeX
-Plugin 'iamcco/markdown-preview.nvim'
-Plugin 'plasticboy/vim-markdown'
-Plugin 'lervag/vimtex'
+" --- Editing Tools ---
+Plug '907th/vim-auto-save'     " Auto-save on change
+Plug 'sirver/ultisnips'        " Snippet engine
+Plug 'honza/vim-snippets'      " Snippet collection
+Plug 'dense-analysis/ale'      " Asynchronous Linting Engine
 
-call vundle#end()
-filetype plugin indent on
+" --- Markdown & LaTeX ---
+" Post-install hook for Markdown Preview
+Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug'] }
+Plug 'plasticboy/vim-markdown'
+Plug 'lervag/vimtex'
+
+call plug#end()
 
 
 " =============================================================================
-" 3. COLOR SCHEME & APPEARANCE (配色与外观)
+" 3. COLOR SCHEME & APPEARANCE
 " =============================================================================
-syntax enable
 set background=dark
-colorscheme jellybeans
+silent! colorscheme jellybeans
 
 " --- Airline Config ---
 let g:airline_powerline_fonts = 1
@@ -97,11 +102,10 @@ let g:airline#extensions#tabline#enabled = 1
 
 
 " =============================================================================
-" 4. PLUGIN-SPECIFIC CONFIGURATION (插件详细配置)
+" 4. PLUGIN-SPECIFIC CONFIGURATION
 " =============================================================================
 
 " --- NERDTree ---
-let g:NERDTreeFileLines = 1
 let g:NERDTreeWinSize = 25
 nnoremap <leader>t :NERDTreeToggle<CR>
 nnoremap <leader>f :NERDTreeFind<CR>
@@ -110,58 +114,46 @@ nnoremap <leader>f :NERDTreeFind<CR>
 let g:auto_save = 1
 let g:auto_save_silent = 1
 
-" --- Markdown Preview ---
-let g:mkdp_auto_start = 0
-let g:mkdp_preview_options = { 'mkit': {}, 'katex': {}, 'uml': {}, 'maid': {} }
-
-" --- Vim Markdown ---
-let g:vim_markdown_folding_disabled = 1
-let g:vim_markdown_math = 1
-
-" --- VimTeX (The Core for LaTeX) ---
+" --- VimTeX Configuration ---
 let g:tex_flavor = 'latex'
 let g:vimtex_compiler_latexmk_engines = {'_': '-xelatex'}
 let g:vimtex_view_method = 'zathura'
-let g:vimtex_quickfix_mode = 0  " Don't auto-open quickfix on warnings
-set conceallevel=0
-" let g:tex_conceal = 'abdmg'
+let g:vimtex_quickfix_mode = 0  " Do not auto-open quickfix for warnings
+set conceallevel=0              " Prevent LaTeX symbols from being hidden
 
 " --- UltiSnips ---
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
-" --- ALE (Syntax Checker) ---
+" --- ALE (Linting) ---
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_save = 1
-let g:ale_lint_on_text_changed = 'never'
 let g:ale_linters = {
 \   'c': ['gcc', 'cppcheck'],
 \   'cpp': ['gcc', 'cppcheck'],
 \   'tex': ['chktex'],
 \   'python': ['flake8'],
 \}
-" Flags for modern C++ (C++17)
 let g:ale_cpp_cc_options = '-std=c++17 -Wall'
-let g:ale_c_gcc_options = '-std=c11 -Wall'
 
 
 " =============================================================================
-" 5. KEY MAPPINGS & FUNCTIONS (快捷键与核心函数)
+" 5. KEY MAPPINGS & FUNCTIONS
 " =============================================================================
-let mapleader = ','
+let mapleader = '\'
 
 " --- General Shortcuts ---
 nnoremap <leader><space> :nohlsearch<CR>
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 
-" --- Basic Auto-pairs (Safe version) ---
+" --- Basic Auto-pairs ---
 inoremap ( ()<Left>
 inoremap [ []<Left>
 inoremap { {}<Left>
 
-" --- F5: ONE-KEY COMPILE & RUN (Smart Function) ---
+" --- F5: Compile & Run ---
 map <F5> :call CompileRun()<CR>
 func! CompileRun()
     exec "w"
@@ -180,36 +172,27 @@ endfunc
 
 
 " =============================================================================
-" 6. FILETYPE SPECIFIC SETTINGS (特定文件优化)
+" 6. FILETYPE SPECIFIC SETTINGS
 " =============================================================================
 
-" --- C/C++ Optimization ---
+augroup WritingGroup
+    autocmd!
+    " Enable wrapping and spell check for prose
+    autocmd FileType tex,markdown setlocal wrap linebreak nolist
+    autocmd FileType tex,markdown setlocal spell
+    " Auto-pair for LaTeX inline math
+    autocmd FileType tex,markdown inoremap <buffer> $ $$<Left>
+    " VimTeX specific shortcuts
+    autocmd FileType tex nnoremap <buffer> <leader>ll :VimtexCompile<CR>
+    autocmd FileType tex nnoremap <buffer> <leader>lv :VimtexView<CR>
+augroup END
+
 augroup CppGroup
     autocmd!
     autocmd FileType c,cpp setlocal cindent
     autocmd FileType c,cpp inoremap <buffer> #i #include <
-    autocmd FileType c,cpp inoremap <buffer> #d #define
 augroup END
 
-" --- LaTeX & Markdown Smooth Writing ---
-augroup WritingGroup
-    autocmd!
-    " Enable soft wrap and spell check
-    autocmd FileType tex,markdown setlocal wrap linebreak nolist
-    autocmd FileType tex,markdown setlocal spell
-    " Stop smartindent, instead, using vimtex's incident
-    autocmd FileType tex,markdown setlocal nosmartindent indentexpr=
-    " autocmd FileType tex setlocal nosmartindent
-    " Math mode shortcuts
-    autocmd FileType tex,markdown inoremap <buffer> $ $$<Left>
-    " LaTeX specific VimTeX mappings
-    autocmd FileType tex nnoremap <buffer> <leader>ll :VimtexCompile<CR>
-    autocmd FileType tex nnoremap <buffer> <leader>lv :VimtexView<CR>
-    autocmd FileType tex nnoremap <buffer> <leader>lc :VimtexClean<CR>
-augroup END
-
-" --- fcitx input method reset (Optional) ---
-" autocmd InsertLeave * call system("fcitx-remote -c")
 ```
 
 3. Last you should use the vimscript below:
